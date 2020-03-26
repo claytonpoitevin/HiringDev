@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HiringDev.Service.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace HiringDev.Service
 {
@@ -24,6 +26,18 @@ namespace HiringDev.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.Configure<Settings>(
+                options =>
+                {
+                    options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                    options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                });
+
+            services.AddSingleton<IMongoClient, MongoClient>(
+                _ => new MongoClient(Configuration.GetSection("MongoConnection:ConnectionString").Value));
+
+            services.AddTransient<IMongoDbContext, MongoDbContext>();
+            services.AddTransient<IYoutubeResultsRepository, YoutubeResultsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
