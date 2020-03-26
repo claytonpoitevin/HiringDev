@@ -1,0 +1,6 @@
+src/HiringDev.Client/obj/*
+src/HiringDev.Service/obj/*
+src/HiringDev.Client/bin/*
+src/HiringDev.Service/bin/*
+src/HiringDev.Tests/obj/*
+src/HiringDev.Tests/bin/*
