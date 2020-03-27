@@ -21,6 +21,14 @@ namespace HiringDev.Service.Models
                             .ToListAsync();
         }
 
+        public Task<YoutubeResult> GetResult(string id)
+        {
+            return _context
+                    .YoutubeResultSet
+                    .Find(Builders<YoutubeResult>.Filter.Eq("id", ObjectId.Parse(id)))
+                    .FirstOrDefaultAsync();
+        }
+        
         public Task<YoutubeResult> GetResult(YoutubeResultType type, string contentId)
         {
             return _context
@@ -36,7 +44,7 @@ namespace HiringDev.Service.Models
 
         public async Task<bool> Update(YoutubeResult game)
         {
-            ReplaceOneResult updateResult =
+            var updateResult =
                 await _context
                         .YoutubeResultSet
                         .ReplaceOneAsync(
@@ -48,7 +56,7 @@ namespace HiringDev.Service.Models
 
         public async Task<bool> Delete(YoutubeResultType type, string contentId)
         {
-            DeleteResult deleteResult = await _context
+            var deleteResult = await _context
                                                 .YoutubeResultSet
                                                 .DeleteOneAsync(MakeKeyFilters(type, contentId));
             return deleteResult.IsAcknowledged
@@ -78,6 +86,7 @@ namespace HiringDev.Service.Models
     public interface IYoutubeResultsRepository
     {
         Task<IEnumerable<YoutubeResult>> GetAllResults();
+        Task<YoutubeResult> GetResult(string id);
         Task<YoutubeResult> GetResult(YoutubeResultType type, string contentId);
         Task<List<YoutubeResult>> GetResultsByTerm(string term);
         Task Create(YoutubeResult item);

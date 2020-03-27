@@ -22,9 +22,9 @@ namespace HiringDev.Service.Controllers
         public async Task<IActionResult> Get(string term)
         {
             var results = await _repository.GetResultsByTerm(term);
-            if (results == null || results.Any())
+            if (results == null || !results.Any())
                 return new NotFoundResult();
-            return new ObjectResult(results);
+            return new OkObjectResult(results);
         }
 
     }
