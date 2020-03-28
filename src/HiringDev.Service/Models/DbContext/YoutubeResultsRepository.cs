@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -82,6 +84,96 @@ namespace HiringDev.Service.Models
                     .ToListAsync();
         }
     }
+
+
+    public class YoutubeResultsRepositoryMock : IYoutubeResultsRepository
+    {
+        private List<YoutubeResult> _dbCollectionMock = new List<YoutubeResult>();
+
+        public YoutubeResultsRepositoryMock()
+        {
+            _dbCollectionMock.Add(new YoutubeResult()
+            {
+                Id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 1),
+                ContentId = "ABC1234",
+                Title = "Video 1",
+                Description = "Video de teste",
+                Type = YoutubeResultType.Video
+            });
+            _dbCollectionMock.Add(new YoutubeResult()
+            {
+                Id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 2),
+                ContentId = "ABC4321",
+                Title = "Canal 1",
+                Description = "Bem vindos ao meu canal",
+                Type = YoutubeResultType.Channel
+            });
+            _dbCollectionMock.Add(new YoutubeResult()
+            {
+                Id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 3),
+                ContentId = "XYZ0000",
+                Title = "Video 2",
+                Description = "Video de teste de novo",
+                Type = YoutubeResultType.Video
+            });
+            _dbCollectionMock.Add(new YoutubeResult()
+            {
+                Id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 4),
+                ContentId = "XYZ0000",
+                Title = "Video 3",
+                Description = "Video de teste de novo 2",
+                Type = YoutubeResultType.Video
+            });
+        }
+
+        public Task Create(YoutubeResult item)
+        {
+            _dbCollectionMock.Add(item);
+            return Task.Delay(20);
+        }
+
+        public Task<bool> Delete(YoutubeResultType type, string contentId)
+        {
+            var item = GetResult(type, contentId);
+            _dbCollectionMock.Remove(item.Result);
+            return Task.FromResult(true);
+        }
+
+        public Task<IEnumerable<YoutubeResult>> GetAllResults()
+        {
+            return Task.FromResult(_dbCollectionMock.AsEnumerable());
+        }
+
+        public Task<YoutubeResult> GetResult(YoutubeResultType type, string contentId)
+        {
+            var item = _dbCollectionMock.FirstOrDefault(x => x.Type == type && x.ContentId == contentId);
+            return Task.FromResult(item);
+        }
+
+        public Task<YoutubeResult> GetResult(string id)
+        {
+            var oid = MongoDB.Bson.ObjectId.Parse(id);
+            var item = _dbCollectionMock.FirstOrDefault(x => x.Id == oid);
+            return Task.FromResult(item);
+        }
+
+        public Task<List<YoutubeResult>> GetResultsByTerm(string term)
+        {
+            var items = _dbCollectionMock.Where(x => x.Title.Contains(term) || x.Description.Contains(term)).ToList();
+            return Task.FromResult(items);
+        }
+
+        public async Task<bool> Update(YoutubeResult item)
+        {
+            var found = await GetResult(item.Type, item.ContentId);
+            found.Title = item.Title;
+            found.Description = item.Description;
+            found.ImageUri = item.ImageUri;
+
+            return true;
+        }
+    }
+
 
     public interface IYoutubeResultsRepository
     {

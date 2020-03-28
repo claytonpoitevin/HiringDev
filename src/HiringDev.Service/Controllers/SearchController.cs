@@ -10,18 +10,16 @@ namespace HiringDev.Service.Controllers
     [Route("[controller]")]
     public class SearchController : ControllerBase
     {
-        private readonly IYoutubeResultsRepository _repository;
-        public SearchController(IYoutubeResultsRepository repository)
+        private readonly IYoutubeLookupService _lookup;
+        public SearchController(IYoutubeLookupService lookup)
         {
-            _repository = repository;
+            _lookup = lookup;
         }
 
-
-
-        [HttpGet("{term}", Name = "Get")]
+        [HttpGet("{term}")]
         public async Task<IActionResult> Get(string term)
         {
-            var results = await _repository.GetResultsByTerm(term);
+            var results = await _lookup.SearchAsync(term);
             if (results == null || !results.Any())
                 return new NotFoundResult();
             return new OkObjectResult(results);
