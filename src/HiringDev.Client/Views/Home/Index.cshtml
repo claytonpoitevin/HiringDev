@@ -1,8 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HiringDev.Client.Models.SearchModel
+@{
+    ViewData["Title"] = "Segfy - Busca de vídeos";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="form-group">
+        <form class="col-sm-6" asp-action="Search" data-ajax="true" data-ajax-method="post" data-ajax-update="#results" asp-route-id="10">
+            <label>Pesquisa</label>
+            <input type="text" placeholder="Busca..." class="form-control" id="dataSearch" asp-for="SearchTerm" />
+            <button class="btn btn-sm btn-success" id="btnSearch">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<div id="results">
+
 </div>

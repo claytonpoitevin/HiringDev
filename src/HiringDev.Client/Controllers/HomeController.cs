@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HiringDev.Client.Models;
+using HiringDev.Client.Services;
 
 namespace HiringDev.Client.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        IServiceHttpClient _httpClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IServiceHttpClient httpClient)
         {
-            _logger = logger;
+            _httpClient = httpClient;
         }
 
         public IActionResult Index()
@@ -23,15 +24,13 @@ namespace HiringDev.Client.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchModel model)
         {
-            return View();
+            var results = await _httpClient.GetResultsByTerm(model.SearchTerm);
+            return PartialView(results);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

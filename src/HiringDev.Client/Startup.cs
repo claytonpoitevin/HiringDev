@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HiringDev.Client.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,11 @@ namespace HiringDev.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IServiceHttpClient, ServiceHttpClient>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5101");
+                client.Timeout = TimeSpan.FromMinutes(1);
+            });
             services.AddControllersWithViews();
         }
 
