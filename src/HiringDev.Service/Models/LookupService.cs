@@ -39,6 +39,8 @@ namespace HiringDev.Service.Models
                     Description = x.Snippet.Description,
                     ImageUri = x.Snippet.Thumbnails.Maxres?.Url ?? x.Snippet.Thumbnails.High?.Url ?? x.Snippet.Thumbnails.Default__?.Url,
                     Type = x.Id.Kind == "youtube#channel" ? YoutubeResultType.Channel : YoutubeResultType.Video,
+                    ChannelTitle = x.Snippet.ChannelTitle,
+                    PublishedAt = x.Snippet.PublishedAt,
                 }).ToList();
             return items;
         }
@@ -53,7 +55,7 @@ namespace HiringDev.Service.Models
 
         private async Task InsertOrUpdateResult(YoutubeResult item)
         {
-            var itemdb = _repository.GetResult(item.Type, item.ContentId);
+            var itemdb = await _repository.GetResult(item.Type, item.ContentId);
             if (itemdb == null) await _repository.Create(item);
         }
 

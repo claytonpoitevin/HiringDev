@@ -1,6 +1,8 @@
 @model HiringDev.Client.Models.YoutubeResultModel
 
 <div class="fixed flex-item">
+    <a asp-action="Details" asp-route-type="@Model.Type" asp-route-id="@Model.ContentId">Detalhes</a>
+
     <img src="@Model.ImageUri" width="300" height="200" />
     <p>@Model.Title</p>
     <p>@Model.Description</p>

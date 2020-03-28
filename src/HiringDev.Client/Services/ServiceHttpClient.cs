@@ -15,6 +15,13 @@ namespace HiringDev.Client.Services
             _client = client;
         }
 
+        public async Task<YoutubeDetailedResultModel> GetContent(string type, string id)
+        {
+            var strResponse = await _client.GetStringAsync($"/item/{type}/{id}");
+            var item = JsonConvert.DeserializeObject<YoutubeDetailedResultModel>(strResponse);
+            return item;
+        }
+
         public async Task<List<YoutubeResultModel>> GetResultsByTerm(string term)
         {
             var strResponse = await _client.GetStringAsync($"/search/{term}");
@@ -26,5 +33,6 @@ namespace HiringDev.Client.Services
     public interface IServiceHttpClient
     {
         Task<List<YoutubeResultModel>> GetResultsByTerm(string term);
+        Task<YoutubeDetailedResultModel> GetContent(string type, string id);
     }
 }

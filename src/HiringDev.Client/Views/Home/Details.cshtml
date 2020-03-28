@@ -1,0 +1,7 @@
+@model HiringDev.Client.Models.YoutubeDetailedResultModel
+
+<h2>@Model.ChannelTitle</h2>
+<h4>@Html.ValueFor(model => model.PublishedAt, "{0:dd/MM/yyyy}")</h4>
+<div><img src="@Model.ImageUri" height="400" /></div>
+<p><a href="@Model.Link" target="_blank">@Model.Title</a></p>
+<p>@Model.Description</p>

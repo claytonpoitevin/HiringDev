@@ -26,7 +26,7 @@ namespace HiringDev.Client
         {
             services.AddHttpClient<IServiceHttpClient, ServiceHttpClient>(client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5101");
+                client.BaseAddress = new Uri("http://localhost:5011");
                 client.Timeout = TimeSpan.FromMinutes(1);
             });
             services.AddControllersWithViews();

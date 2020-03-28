@@ -32,5 +32,13 @@ namespace HiringDev.Client.Controllers
             return PartialView(results);
         }
 
+        [HttpGet("{type}/{id}")]
+        public async Task<IActionResult> Details(string type, string id)
+        {
+            var results = await _httpClient.GetContent(type, id);
+            return View(results);
+        }
+
+
     }
 }
