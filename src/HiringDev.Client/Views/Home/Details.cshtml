@@ -1,4 +1,7 @@
 @model HiringDev.Client.Models.YoutubeDetailedResultModel
+@{
+    ViewData["Title"] = "Segfy - Detalhes do conteúdo";
+}
 
 <h2>@Model.ChannelTitle</h2>
 <h4>@Html.ValueFor(model => model.PublishedAt, "{0:dd/MM/yyyy}")</h4>

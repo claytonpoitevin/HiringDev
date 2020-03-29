@@ -30,7 +30,7 @@ namespace HiringDev.Service.Models
                     .Find(Builders<YoutubeResult>.Filter.Eq("id", ObjectId.Parse(id)))
                     .FirstOrDefaultAsync();
         }
-        
+
         public Task<YoutubeResult> GetResult(YoutubeResultType type, string contentId)
         {
             return _context
@@ -39,9 +39,10 @@ namespace HiringDev.Service.Models
                     .FirstOrDefaultAsync();
         }
 
-        public async Task Create(YoutubeResult item)
+        public async Task<YoutubeResult> Create(YoutubeResult item)
         {
             await _context.YoutubeResultSet.InsertOneAsync(item);
+            return item;
         }
 
         public async Task<bool> Update(YoutubeResult game)
@@ -126,10 +127,11 @@ namespace HiringDev.Service.Models
             });
         }
 
-        public Task Create(YoutubeResult item)
+        public Task<YoutubeResult> Create(YoutubeResult item)
         {
             _dbCollectionMock.Add(item);
-            return Task.Delay(20);
+            item.Id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 1);
+            return Task.FromResult(item);
         }
 
         public Task<bool> Delete(YoutubeResultType type, string contentId)
@@ -181,7 +183,7 @@ namespace HiringDev.Service.Models
         Task<YoutubeResult> GetResult(string id);
         Task<YoutubeResult> GetResult(YoutubeResultType type, string contentId);
         Task<List<YoutubeResult>> GetResultsByTerm(string term);
-        Task Create(YoutubeResult item);
+        Task<YoutubeResult> Create(YoutubeResult item);
         Task<bool> Update(YoutubeResult item);
         Task<bool> Delete(YoutubeResultType type, string contentId);
     }

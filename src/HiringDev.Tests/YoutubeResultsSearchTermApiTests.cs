@@ -29,38 +29,27 @@ namespace HiringDev.Tests
         [Fact]
         public async Task ShouldReturnOKWhenTermExists()
         {
-            var results = await _controller.Get("test");
+            var results = await _controller.Get("abc");
             Assert.IsType<OkObjectResult>(results);
         }
 
+        [Fact]
+        public async Task ShouldReturnNorNullOrEmptyWhenExists()
+        {
+            var results = await _controller.Get("abc") as OkObjectResult;
+            var items = Assert.IsType<List<YoutubeResult>>(results.Value);
 
-        // [Fact]
-        // public async Task ShouldReturn3ItemsWhenTermExists()
-        // {
-        //     var results = await _controller.Get("test") as OkObjectResult;
-        //     var items = Assert.IsType<List<YoutubeResult>>(results.Value);
-        //     Assert.Equal(3, items.Count);
-        // }
+            Assert.NotNull(items);
+            Assert.NotEmpty(items);
+        }
 
+        [Fact]
+        public async Task ShouldReturnNotFoundWhenTermDoesntExists()
+        {
+            var results = await _controller.Get("CEH@&Q*CYR&*)#NC&*GCNRM*R#Q");
+            Assert.IsType<NotFoundResult>(results);
+        }
 
-        // [Fact]
-        // public async Task ShouldReturnNotFoundWhenTermDoesntExists()
-        // {
-        //     var results = await _controller.Get("abcdefgh");
-        //     Assert.IsType<NotFoundResult>(results);
-        // }
-
-        // [Fact]
-        // public async Task ShouldReturnItemsWhenMinecraftTermIsGiven() // youtube = minecraft
-        // {
-        //     var results = await _controller.Get("minecraft") as OkObjectResult;
-        //     var items = Assert.IsType<List<YoutubeResult>>(results.Value);
-        //     Assert.NotEmpty(items);
-        // }
-        // get por tipo e id
-        // quando procurar por um item especifico qualquer deve retornar notfound
-        // quando procurar por um item especifico exitente deve retornar o ok result
-        //quando procurar por um item especifico exitente deve retornar o item
 
     }
 }

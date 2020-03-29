@@ -61,8 +61,6 @@ namespace HiringDev.Service.Models
 
     }
 
-
-
     public interface IYoutubeLookupService
     {
         Task<List<YoutubeResult>> SearchAsync(string term);

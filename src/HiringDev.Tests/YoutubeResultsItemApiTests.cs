@@ -18,54 +18,28 @@ namespace HiringDev.Tests
             _controller = new ItemController(_repository);
         }
 
-        // [Fact]
-        // public async Task WhenGetShouldReturnOkWhenFindingItem()
-        // {
-        //     var id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 2);
-        //     var results = await _controller.Get(id.ToString());
-        //     Assert.IsType<OkObjectResult>(results);
-        // }
+        [Fact]
+        public async Task ShouldReturnOKWhenTermExists()
+        {
+            var results = await _controller.Get("1", "ABC1234");
+            Assert.IsType<OkObjectResult>(results);
+        }
 
-        // [Fact]
-        // public async Task WhenGetShouldReturnCorrectItem()
-        // {
-        //     var id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 2);
-        //     var results = await _controller.Get(id.ToString()) as OkObjectResult;
-        //     var item = Assert.IsType<YoutubeResult>(results.Value);
+        [Fact]
+        public async Task ShouldReturnNorNullOrEmptyWhenExists()
+        {
+            var results = await _controller.Get("0", "ABC4321") as OkObjectResult;
+            var items = Assert.IsType<YoutubeResult>(results.Value);
 
-        //     Assert.Equal(item.Id, id);
-        // }
+            Assert.NotNull(items);
+        }
 
-        // [Fact]
-        // public async Task WhenGetInvalidShouldReturnNotFound()
-        // {
-        //     var id = new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 99);
-        //     var results = await _controller.Get(id.ToString());
-        //     Assert.IsType<NotFoundResult>(results);
-        // }
-        
-        // ao criar item precisa retornar ok
-        // ao crair item precisa realmente adicionar o item 
-        // ao criar item ja existente precisa substituir o anterior pela chave
+        [Fact]
+        public async Task ShouldReturnNotFoundWhenTermDoesntExists()
+        {
+            var results = await _controller.Get("1", "fgfegfdheh");
+            Assert.IsType<NotFoundResult>(results);
+        }
 
-
-
-        // [Fact]
-        // public async Task ShouldReturnOkWhenFindingItem() {
-        //     var results = await _controller.Get("1");
-        //     Assert.IsType<OkObjectResult>(results);
-        // }
-
-        // [Fact]
-        // public async Task ShouldHaveCreatedTheItem() {
-        //     var results = await _controller.Get(new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 2).ToString());
-        //     Assert.IsType<OkObjectResult>(results);
-        // }
-
-        // [Fact]
-        // public async Task ShouldHaveCreatedTheItem() {
-        //     var results = await _controller.Get(new MongoDB.Bson.ObjectId(DateTime.Now, 1, 1, 2).ToString());
-        //     Assert.IsType<OkObjectResult>(results);
-        // }
     }
 }

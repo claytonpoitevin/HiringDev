@@ -3,16 +3,16 @@
     ViewData["Title"] = "Segfy - Busca de vídeos";
 }
 
-<div class="text-center">
-    <div class="form-group">
-        <form class="col-sm-6" asp-action="Search" data-ajax="true" data-ajax-method="post" data-ajax-update="#results" asp-route-id="10">
-            <label>Pesquisa</label>
-            <input type="text" placeholder="Busca..." class="form-control" id="dataSearch" asp-for="SearchTerm" />
-            <button class="btn btn-sm btn-success" id="btnSearch">Buscar</button>
-        </form>
+<form  asp-action="Search" data-ajax="true" data-ajax-method="post" data-ajax-update="#results" asp-route-id="10" data-ajax-loading="#spinner"> 
+    <div class="text-center">
+        <div class="form-group">
+            <label  class="form-group-child" >Segfy - Pesquisa no YouTube</label>
+            <input  class="form-group-child" type="text" placeholder="Busca..." class="form-control" id="dataSearch" asp-for="SearchTerm" />
+            <button class="btn btn-sm btn-success form-group-child" id="btnSearch">Buscar</button>
+        </div>
     </div>
-</div>
-
+</form>
+<span id="spinner" style="display:none;"><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" /></span>
 <div id="results">
 
 </div>

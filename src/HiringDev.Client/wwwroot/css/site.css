@@ -70,15 +70,26 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.container{
+#results {
+  clear: both;
+}
+
+.flexcontainer{
   display: flex;
 }
 .fixed{
-  width: 350px;
+  width: 325px;
   background-color: #aaaaaa;
   margin: 7px;
   padding: 10px;
+  vertical-align: top;
 }
 .flex-item{
   flex-grow: 1;
+  display: inline-block;
+}
+
+.form-group-child {
+  float: left;
+  margin: 10px;
 }
