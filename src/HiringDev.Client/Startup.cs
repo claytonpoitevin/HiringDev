@@ -26,7 +26,8 @@ namespace HiringDev.Client
         {
             services.AddHttpClient<IServiceHttpClient, ServiceHttpClient>(client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5011");
+                var apiUrl = Configuration.GetSection("Services:ApiUrl").Value;
+                client.BaseAddress = new Uri(apiUrl);
                 client.Timeout = TimeSpan.FromMinutes(1);
             });
             services.AddControllersWithViews();
@@ -35,22 +36,10 @@ namespace HiringDev.Client
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,6 @@
+{
+    "region": "us-east-1",
+    "application": "claytonpoitevin-segfy-api",
+    "environment": "aspnetcore-dev",
+    "configuration": "Release"
+}
